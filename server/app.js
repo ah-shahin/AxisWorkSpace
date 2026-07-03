@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const pool = require("./db");
 
 const customersRouter = require("./routes/customers");
 const roomsRouter = require("./routes/rooms");
@@ -20,16 +19,10 @@ app.use("/api/visits", visitsRouter);
 app.use("/api/reports", reportsRouter);
 
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok" });
-});
-
-app.get("/api/test-db", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT NOW()");
-    res.json({ dbTime: result.rows[0].now });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  res.json({
+    status: "ok",
+    message: "Backend is running!"
+  });
 });
 
 module.exports = app;
