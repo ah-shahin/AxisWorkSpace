@@ -1,0 +1,185 @@
+{
+  "info": {
+    "name": "AxisWorkSpace API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/health"
+          }
+        },
+        {
+          "name": "DB connection test",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/test-db"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Create customer (find-or-create by phone)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"phone\": \"0111222333\"\n}"
+            },
+            "url": "{{baseUrl}}/api/customers"
+          }
+        },
+        {
+          "name": "Search customers by phone",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/search?phone=010",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "search"],
+              "query": [{ "key": "phone", "value": "010" }]
+            }
+          }
+        },
+        {
+          "name": "List all customers",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/customers" }
+        },
+        {
+          "name": "Edit customer",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\",\n  \"phone\": \"01099998888\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete customer",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "2"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rooms",
+      "item": [
+        {
+          "name": "List all rooms",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/rooms" }
+        },
+        {
+          "name": "List free rooms",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/rooms/free" }
+        }
+      ]
+    },
+    {
+      "name": "Visits",
+      "item": [
+        {
+          "name": "Check in",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 1,\n  \"room_id\": 1,\n  \"created_by\": 1,\n  \"group_size\": 3,\n  \"members\": [\n    { \"name\": \"Bob Guest\", \"phone\": \"0111111111\" },\n    { \"name\": \"Carol Guest\", \"phone\": \"0122222222\" }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/api/visits"
+          }
+        },
+        {
+          "name": "List active visits",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/visits/active" }
+        },
+        {
+          "name": "Check out host only (group stays)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_method\": \"cash\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/visits/1/main/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "visits", "1", "main", "checkout"]
+            }
+          }
+        },
+        {
+          "name": "Check out one group member",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_method\": \"cash\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/visits/1/members/1/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "visits", "1", "members", "1", "checkout"]
+            }
+          }
+        },
+        {
+          "name": "Check out main (closes group)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_method\": \"cash\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/visits/1/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "visits", "1", "checkout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Today's revenue & visit count",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/reports/today" }
+        },
+        {
+          "name": "History (all checkouts)",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/reports/history" }
+        }
+      ]
+    }
+  ]
+}
