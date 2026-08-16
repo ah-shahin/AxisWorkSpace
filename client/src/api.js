@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: 'http://localhost:4000/api' });
+// In production (Vercel) set VITE_API_URL to the backend URL, e.g.
+// https://your-backend.vercel.app/api . Falls back to relative /api
+// since frontend and backend now run on the same port.
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || '/api',
+});
 
 export const searchCustomers = (q) =>
   api.get('/customers/search', { params: { q } });

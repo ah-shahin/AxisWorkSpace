@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+node_modules/
+.env
+=======
 client/node_modules
 client/dist
 server/node_modules
 server/.env
+>>>>>>> e925a16416f64ee9cc87b25773dee5947c9f8f6d
